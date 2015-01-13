@@ -2,8 +2,10 @@
     'use strict';
 
     oAuth.Name = 'Owin';
-    // oAuth.AuthorizationServer = 'http://localhost.fiddler:8686/oauth/Token';
-    oAuth.AuthorizationServer = 'http://localhost:8686/oauth/Token';
+    oAuth.AuthorizationServer = 'http://localhost.fiddler:8686/oauth/Token';
+    // oAuth.AuthorizationServer = 'http://localhost:8686/oauth/Token';
+    oAuth.FetchCustomerUrl = 'http://localhost:8686/api/customer';
+    oAuth.Token = null;
 
     oAuth.init = function () {
 
@@ -38,6 +40,33 @@
             success: function (result) {
                 $('#name').val(result.name);
                 $('#surname').val(result.surname);
+
+                oAuth.Token = result.access_token;
+            },
+            complete: function (jqXHR, textStatus) {
+                // alert(textStatus);
+            },
+            error: function (req, status, error) {
+                alert(error);
+            }
+        });
+    };
+
+    oAuth.FetchCustomer = function () {
+
+        $.ajax({
+            type: 'GET',
+            url: oAuth.FetchCustomerUrl + '/1',
+            data: { },
+            dataType: "json",
+            headers: {
+                'Authorization': 'Bearer ' + oAuth.Token
+            },
+            beforeSend: function (xhr) {
+            },
+            success: function (result) {
+                alert(result.FirstName);
+                alert(result.LastName);
             },
             complete: function (jqXHR, textStatus) {
                 // alert(textStatus);

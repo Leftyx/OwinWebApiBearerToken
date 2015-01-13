@@ -5,18 +5,23 @@
 </head>
 <body>
     <div>
-        <button type="button" id="owin">Fetch Data</button>
+        <button type="button" id="authenticate">Authenticate</button>
         <br />
         <input type="text" id="name" value="" style="width:200px;" />
         <input type="text" id="surname" value="" style="width:200px;" />
+        <br />
+        <button type="button" id="fetch-customer">Fetch Data</button>
     </div>
     <script src="jquery-2.1.0.min.js"></script>
     <script src="jquery.base64.js"></script>
     <script src="index.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#owin').on('click', function () {
+            $('#authenticate').on('click', function () {
                 oAuth.requestToken();
+            });
+            $('#fetch-customer').on('click', function () {
+                oAuth.FetchCustomer();
             });
         });
     </script>

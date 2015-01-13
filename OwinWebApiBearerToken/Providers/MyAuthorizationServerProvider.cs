@@ -18,6 +18,9 @@ namespace OwinWebApiBearerToken.Providers
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
+            //context.Validated();
+            //return;
+
             string clientId = string.Empty;
             string clientSecret = string.Empty;
 
@@ -97,7 +100,7 @@ namespace OwinWebApiBearerToken.Providers
                 ClaimsIdentity identity = new ClaimsIdentity(context.Options.AuthenticationType);
                 identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
                 identity.AddClaim(new Claim(ClaimTypes.Role, "Administrators"));
-                
+
                 identity.AddClaim(new Claim("MyClaim", "I don't know"));
 
                 var props = new AuthenticationProperties(new Dictionary<string, string>
@@ -116,6 +119,7 @@ namespace OwinWebApiBearerToken.Providers
                     }
                 });
 
+                // context.Validated(identity);
                 var ticket = new AuthenticationTicket(identity, props);
                 context.Validated(ticket);
 

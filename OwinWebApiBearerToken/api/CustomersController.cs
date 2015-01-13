@@ -8,6 +8,7 @@
     using System.Security.Claims;
     using System.Web.Http;
 
+    [RoutePrefix("api")]
     public class CustomersController : ApiController
     {
         [Route("customer/{id:int}")]
