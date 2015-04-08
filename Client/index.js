@@ -2,8 +2,8 @@
     'use strict';
 
     oAuth.Name = 'Owin';
-    oAuth.AuthorizationServer = 'http://localhost.fiddler:8686/oauth/Token';
-    // oAuth.AuthorizationServer = 'http://localhost:8686/oauth/Token';
+    // oAuth.AuthorizationServer = 'http://localhost.fiddler:8686/oauth/Token';
+    oAuth.AuthorizationServer = 'http://localhost:8686/oauth/Token';
     oAuth.FetchCustomerUrl = 'http://localhost:8686/api/customer';
     oAuth.Token = null;
 

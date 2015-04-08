@@ -47,7 +47,7 @@ namespace ClientHttp
 
         public static async Task<object> GetValuesAsync(HttpClient client, AccessTokenResponse accessTokenResponse)
         {
-            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, baseUrl + "/api/customers/1"))
+            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, baseUrl + "/api/customer/1"))
             {
                 request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessTokenResponse.AccessToken);
