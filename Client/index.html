@@ -6,6 +6,7 @@
 <body>
     <div>
         <button type="button" id="authenticate">Authenticate</button>
+        <button type="button" id="authenticateVanilla">Authenticate Vanilla JS</button>
         <br />
         <input type="text" id="name" value="" style="width:200px;" />
         <input type="text" id="surname" value="" style="width:200px;" />
@@ -19,6 +20,9 @@
         $(document).ready(function () {
             $('#authenticate').on('click', function () {
                 oAuth.requestToken();
+            });
+            $('#authenticateVanilla').on('click', function () {
+                oAuth.requestTokenVanilla();
             });
             $('#fetch-customer').on('click', function () {
                 oAuth.FetchCustomer();

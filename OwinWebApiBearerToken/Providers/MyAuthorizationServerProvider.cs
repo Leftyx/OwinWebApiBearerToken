@@ -18,9 +18,6 @@ namespace OwinWebApiBearerToken.Providers
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
-            //context.Validated();
-            //return;
-
             string clientId = string.Empty;
             string clientSecret = string.Empty;
 
@@ -50,6 +47,7 @@ namespace OwinWebApiBearerToken.Providers
                     client.CreatedOn = DateTimeOffset.UtcNow;
 
                     context.OwinContext.Set<ApplicationClient>("oauth:client", client);
+
                     context.Validated(clientId);
                 }
                 else
