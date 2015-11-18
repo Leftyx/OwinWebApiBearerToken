@@ -21,7 +21,7 @@
 
             return new Models.Customer()
             {
-                ID = 1,             
+                ID = id,             
                 LastName = "Smith",
                 FirstName = "Mary",
                 HouseNumber = "333",

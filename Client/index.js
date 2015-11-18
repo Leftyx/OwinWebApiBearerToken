@@ -30,7 +30,17 @@
 
         request.onreadystatechange = function () {
             if (request.readyState == 4) {
-                alert(request.responseText);
+                var result = $.parseJSON(request.responseText);
+                if (result)
+                {
+                    $('#response-server').text(request.responseText);
+                    $('#name').val(result.name);
+                    $('#surname').val(result.surname);
+
+                    oAuth.Token = result.access_token;
+
+                    $('#token').val(result.access_token);
+                }
             }
         };
     };
@@ -55,19 +65,26 @@
             headers: {
                 'Authorization': 'Basic ' + authorizationBasic
             },
-            beforeSend: function (xhr) {
-            },
+            //beforeSend: function (xhr) {
+            //},
             success: function (result) {
+
+                $('#response-server').text(JSON.stringify(result));
+
                 $('#name').val(result.name);
                 $('#surname').val(result.surname);
 
                 oAuth.Token = result.access_token;
+
+                $('#token').val(result.access_token);
             },
-            complete: function (jqXHR, textStatus) {
-                // alert(textStatus);
-            },
+            //complete: function (jqXHR, textStatus) {
+            //},
             error: function (req, status, error) {
-                alert(error);
+                if (req.responseJSON)
+                {
+                    alert(req.responseJSON.error_description);
+                }
             }
         });
     };
@@ -76,23 +93,23 @@
 
         $.ajax({
             type: 'GET',
-            url: oAuth.FetchCustomerUrl + '/1',
-            data: { },
+            url: oAuth.FetchCustomerUrl + '/1001',
+            // data: { extended: 'something' },
             dataType: "json",
             headers: {
                 'Authorization': 'Bearer ' + oAuth.Token
             },
-            beforeSend: function (xhr) {
-            },
+            //beforeSend: function (xhr) {
+            //},
             success: function (result) {
-                alert(result.FirstName);
-                alert(result.LastName);
+                $('#result').text(JSON.stringify(result));
             },
-            complete: function (jqXHR, textStatus) {
-                // alert(textStatus);
-            },
+            //complete: function (jqXHR, textStatus) {
+            //},
             error: function (req, status, error) {
-                alert(error);
+                if (req.responseJSON) {
+                    alert(req.responseJSON.error_description || req.responseJSON.Message);
+                }
             }
         });
     };

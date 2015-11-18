@@ -2,18 +2,56 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .btn-same-size {
+            width: 200px;
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <button type="button" id="authenticate">Authenticate</button>
-        <button type="button" id="authenticateVanilla">Authenticate Vanilla JS</button>
-        <br />
-        <input type="text" id="name" value="" style="width:200px;" />
-        <input type="text" id="surname" value="" style="width:200px;" />
-        <br />
-        <button type="button" id="fetch-customer">Fetch Data</button>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <button type="button" class="btn btn-primary btn-same-size" id="authenticate">Authenticate</button>
+                <button type="button" class="btn btn-primary btn-same-size" id="authenticateVanilla">Authenticate Vanilla JS</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name" class="control-label">Name</label>
+                    <input type="text" id="name" value="" class="form-control" placeholder="Your fetched name will appear here." />
+                </div>
+                <div class="form-group">
+                    <label for="surname" class="control-label">Surname</label>
+                    <input type="text" id="surname" value="" class="form-control" placeholder="Your fetched surname will appear here." />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <textarea id="token" class="form-control" rows="6"></textarea>
+            </div>
+        </div>
+
+        <p>
+            <pre id="response-server">&nbsp;</pre>
+        </p>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <button type="button" class="btn btn-info btn-same-size" id="fetch-customer">Fetch Data</button>
+            </div>
+        </div>
+
+        <p>
+            <pre id="result">&nbsp;</pre>
+        </p>
+
     </div>
     <script src="jquery-2.1.0.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="jquery.base64.js"></script>
     <script src="index.js"></script>
     <script type="text/javascript">

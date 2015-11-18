@@ -28,9 +28,8 @@ namespace OwinWebApiBearerToken.Providers
 
             if (context.ClientId == null)
             {
-                context.SetError("invalid_client", "Client credentials could not be retrieved through the Authorization header.");
                 context.Rejected();
-
+                context.SetError("invalid_client", "Client credentials could not be retrieved through the Authorization header.");
                 return;
             }
 
@@ -53,15 +52,15 @@ namespace OwinWebApiBearerToken.Providers
                 else
                 {
                     // Client could not be validated.
-                    context.SetError("invalid_client", "Client credentials are invalid.");
                     context.Rejected();
+                    context.SetError("invalid_client", "Client credentials are invalid.");
                 }
             }
             catch (Exception ex)
             {
                 string errorMessage = ex.Message;
-                context.SetError("server_error");
                 context.Rejected();
+                context.SetError("server_error");
             }
 
             return;
@@ -75,8 +74,8 @@ namespace OwinWebApiBearerToken.Providers
 
             if (string.IsNullOrEmpty(context.UserName) || string.IsNullOrEmpty(context.Password))
             {
-                context.SetError("invalid_request", "No username or password are provided.");
                 context.Rejected();
+                context.SetError("invalid_request", "No username or password are provided.");
                 return;
             }
 
@@ -88,8 +87,8 @@ namespace OwinWebApiBearerToken.Providers
 
             if (client.AllowedGrant != OAuthGrant.ResourceOwner)
             {
-                context.SetError("invalid_grant", "The resource owner credentials are invalid or resource owner does not exist.");
                 context.Rejected();
+                context.SetError("invalid_grant", "The resource owner credentials are invalid or resource owner does not exist.");
                 return;
             }
 
@@ -117,7 +116,6 @@ namespace OwinWebApiBearerToken.Providers
                     }
                 });
 
-                // context.Validated(identity);
                 var ticket = new AuthenticationTicket(identity, props);
                 context.Validated(ticket);
 
@@ -125,8 +123,8 @@ namespace OwinWebApiBearerToken.Providers
             catch
             {
                 // The ClaimsIdentity could not be created by the UserManager.
+                context.Rejected(); 
                 context.SetError("server_error");
-                context.Rejected();
             }
         }
 
@@ -138,6 +136,11 @@ namespace OwinWebApiBearerToken.Providers
             }
             return Task.FromResult<object>(null);
         }
+
+        //public override Task TokenEndpointResponse(OAuthTokenEndpointResponseContext context)
+        //{
+        //    return base.TokenEndpointResponse(context);
+        //}
 
         public override async Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
         {

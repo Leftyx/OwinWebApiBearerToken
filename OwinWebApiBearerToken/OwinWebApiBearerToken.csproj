@@ -106,6 +106,8 @@
   <ItemGroup>
     <Compile Include="api\CustomersController.cs" />
     <Compile Include="ApplicationClient.cs" />
+    <Compile Include="ImageProcessingExtensions.cs" />
+    <Compile Include="ImageProcessingMiddleware.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="OAuthGrant.cs" />
     <Compile Include="Program.cs" />

@@ -36,6 +36,7 @@ namespace OwinWebApiBearerToken
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+            // We don't need this crap anymore!
             //config.Routes.MapHttpRoute(
             //    name: "DefaultApi",
             //    routeTemplate: "api/{controller}/{id}",
@@ -43,6 +44,7 @@ namespace OwinWebApiBearerToken
             //);
 
             app.UseWebApi(config);
+
         }
     }
 }
