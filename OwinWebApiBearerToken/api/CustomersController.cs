@@ -1,13 +1,10 @@
-﻿namespace OwinWebApiBearerToken.api
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Security.Claims;
-    using System.Web.Http;
+﻿using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Web.Http;
 
+namespace OwinWebApiBearerToken.api
+{
     [RoutePrefix("api")]
     public class CustomersController : ApiController
     {
@@ -15,13 +12,13 @@
         [Authorize(Roles="Administrators")]
         public Models.Customer Get(int id)
         {
-            ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            var principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
 
-            var myClaim = principal.Claims.Where(f => f.Type == "MyClaim").SingleOrDefault();
+            var myClaim = principal.Claims.SingleOrDefault(f => f.Type == "MyClaim");
 
-            return new Models.Customer()
+            return new Models.Customer
             {
-                ID = id,             
+                Id = id,
                 LastName = "Smith",
                 FirstName = "Mary",
                 HouseNumber = "333",

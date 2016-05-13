@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientHttp
 {
@@ -18,6 +14,12 @@ namespace ClientHttp
 
         [DataMember(Name = "expires_in")]
         public uint ExpiresIn { get; set; }
+
+        [DataMember(Name = ".issued")]
+        public DateTime Issued { get; set; }
+
+        [DataMember(Name = ".expires")]
+        public DateTime Expires { get; set; }
 
         [DataMember(Name = "refresh_token")]
         public string RefreshToken { get; set; }

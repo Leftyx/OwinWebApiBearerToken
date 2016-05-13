@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Owin;
 
 namespace OwinWebApiBearerToken
 {
-    using Owin;
-
     public static class ImageProcessingExtensions
     {
-        public static IAppBuilder UseImageProcessing(this IAppBuilder app)
-        {
-            return app.Use<ImageProcessingMiddleware>();
-        }
+        public static IAppBuilder UseImageProcessing(this IAppBuilder app) => app.Use<ImageProcessingMiddleware>();
     }
 }

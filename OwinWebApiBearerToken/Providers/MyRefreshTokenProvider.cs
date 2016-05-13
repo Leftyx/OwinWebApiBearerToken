@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Infrastructure;
+using System;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
 namespace OwinWebApiBearerToken.Providers
 {
-    using Microsoft.Owin.Security;
-    using Microsoft.Owin.Security.Infrastructure;
-    using System;
-    using System.Collections.Concurrent;
-    using System.Threading.Tasks;
-    
     public class MyRefreshTokenProvider : IAuthenticationTokenProvider
     {
         private static ConcurrentDictionary<string, AuthenticationTicket> RefreshTokens = null;
@@ -40,6 +34,8 @@ namespace OwinWebApiBearerToken.Providers
 
             // consider storing only the hash of the handle
             context.SetToken(guid);
+
+            return;
         }
 
         public async Task ReceiveAsync(AuthenticationTokenReceiveContext context)
@@ -49,6 +45,8 @@ namespace OwinWebApiBearerToken.Providers
             {
                 context.SetTicket(ticket);
             }
+
+            return;
         }
 
         public void Create(AuthenticationTokenCreateContext context)

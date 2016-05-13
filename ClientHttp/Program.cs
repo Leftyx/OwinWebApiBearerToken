@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading;
-using System.Net.Http.Formatting;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ClientHttp
 {
@@ -17,32 +14,29 @@ namespace ClientHttp
         public const string UserName = "John";
         public const string Password = "Smith";
 
-        // public const string baseUrl = "http://localhost.fiddler:8686";
+        // // public const string baseUrl = "http://localhost.fiddler:8686";
         public const string baseUrl = "http://localhost:8686";
 
         static void Main(string[] args)
         {
-            Runner();
-
+            RunnerAsync();
+            Console.WriteLine("Finished!");
             Console.ReadLine();
         }
 
-        public static async void Runner()
+        public static async void RunnerAsync()
         {
             using (HttpClient client = new HttpClient())
             {
-                AccessTokenResponse accessTokenResponse = await GetAccessTokenAsync(client);
+                var accessTokenResponse = await GetAccessTokenAsync(client);
 
-                object values = await GetValuesAsync(client, accessTokenResponse);
+                var values = await GetValuesAsync(client, accessTokenResponse);
                 Console.WriteLine(values);
 
                 // AccessTokenResponse accessTokenRefreshResponse = await GetRefreshTokenAsync(client, accessTokenResponse.RefreshToken);
                 // values = await GetValuesAsync(client, accessTokenRefreshResponse);
                 //Console.WriteLine(values);
-
             }
-
-            return;
         }
 
         public static async Task<object> GetValuesAsync(HttpClient client, AccessTokenResponse accessTokenResponse)
@@ -76,7 +70,7 @@ namespace ClientHttp
 
             using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, baseUrl + "/oauth/token"))
             {
-                List<KeyValuePair<string, string>> values = new List<KeyValuePair<string, string>> { 
+                var values = new List<KeyValuePair<string, string>> {
                     new KeyValuePair<string, string>(Constants.Parameters.GrantType, Constants.GrantTypes.Password),
                     new KeyValuePair<string, string>(Constants.Parameters.Username, UserName),
                     new KeyValuePair<string, string>(Constants.Parameters.Password, Password),
@@ -89,8 +83,7 @@ namespace ClientHttp
                 using (HttpResponseMessage response = await client.SendAsync(request))
                 {
                     response.EnsureSuccessStatusCode();
-                    AccessTokenResponse result = await response.Content.ReadAsAsync<AccessTokenResponse>();
-
+                    var result = await response.Content.ReadAsAsync<AccessTokenResponse>();
                     return result;
                 }
             }
@@ -110,7 +103,7 @@ namespace ClientHttp
 
             using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, baseUrl + "/oauth/token"))
             {
-                List<KeyValuePair<string, string>> values = new List<KeyValuePair<string, string>> { 
+                var values = new List<KeyValuePair<string, string>> {
                     new KeyValuePair<string, string>(Constants.Parameters.GrantType, Constants.GrantTypes.RefreshToken),
                     new KeyValuePair<string, string>(Constants.Parameters.RefreshToken, refreshToken),
                 };
@@ -121,8 +114,7 @@ namespace ClientHttp
                 using (HttpResponseMessage response = await client.SendAsync(request))
                 {
                     response.EnsureSuccessStatusCode();
-                    AccessTokenResponse result = await response.Content.ReadAsAsync<AccessTokenResponse>();
-
+                    var result = await response.Content.ReadAsAsync<AccessTokenResponse>();
                     return result;
                 }
             }
@@ -130,7 +122,7 @@ namespace ClientHttp
 
         private static string EncodeToBase64(string value)
         {
-            byte[] toEncodeAsBytes = Encoding.UTF8.GetBytes(value);
+            var toEncodeAsBytes = Encoding.UTF8.GetBytes(value);
             return Convert.ToBase64String(toEncodeAsBytes);
         }
 

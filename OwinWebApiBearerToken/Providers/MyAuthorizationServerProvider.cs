@@ -3,9 +3,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace OwinWebApiBearerToken.Providers
@@ -18,8 +16,8 @@ namespace OwinWebApiBearerToken.Providers
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
-            string clientId = string.Empty;
-            string clientSecret = string.Empty;
+            var clientId = string.Empty;
+            var clientSecret = string.Empty;
 
             if (!context.TryGetBasicCredentials(out clientId, out clientSecret))
             {
@@ -37,30 +35,29 @@ namespace OwinWebApiBearerToken.Providers
             {
                 if (clientId == "MyApp" && clientSecret == "MySecret")
                 {
-                    ApplicationClient client = new ApplicationClient();
-
-                    client.Id = "MyApp";
-                    client.AllowedGrant = OAuthGrant.ResourceOwner;
-                    client.ClientSecretHash = new PasswordHasher().HashPassword("MySecret");
-                    client.Name = "My App";
-                    client.CreatedOn = DateTimeOffset.UtcNow;
+                    var client = new ApplicationClient
+                    {
+                        Id = "MyApp",
+                        AllowedGrant = OAuthGrant.ResourceOwner,
+                        ClientSecretHash = new PasswordHasher().HashPassword("MySecret"),
+                        Name = "My App",
+                        CreatedOn = DateTimeOffset.UtcNow
+                    };
 
                     context.OwinContext.Set<ApplicationClient>("oauth:client", client);
-
                     context.Validated(clientId);
                 }
                 else
                 {
                     // Client could not be validated.
-                    context.Rejected();
                     context.SetError("invalid_client", "Client credentials are invalid.");
+                    context.Rejected();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                string errorMessage = ex.Message;
-                context.Rejected();
                 context.SetError("server_error");
+                context.Rejected();
             }
 
             return;
@@ -69,32 +66,32 @@ namespace OwinWebApiBearerToken.Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             // context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
-
-            ApplicationClient client = context.OwinContext.Get<ApplicationClient>("oauth:client");
+            var client = context.OwinContext.Get<ApplicationClient>("oauth:client");
 
             if (string.IsNullOrEmpty(context.UserName) || string.IsNullOrEmpty(context.Password))
             {
-                context.Rejected();
                 context.SetError("invalid_request", "No username or password are provided.");
+                context.Rejected();
                 return;
             }
 
             if (context.UserName != "John" && context.Password != "Smith")
             {
                 context.SetError("invalid_grant", "The username or password is incorrect.");
+                context.Rejected();
                 return;
             }
 
             if (client.AllowedGrant != OAuthGrant.ResourceOwner)
             {
-                context.Rejected();
                 context.SetError("invalid_grant", "The resource owner credentials are invalid or resource owner does not exist.");
+                context.Rejected();
                 return;
             }
 
             try
             {
-                ClaimsIdentity identity = new ClaimsIdentity(context.Options.AuthenticationType);
+                var identity = new ClaimsIdentity(context.Options.AuthenticationType);
                 identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
                 identity.AddClaim(new Claim(ClaimTypes.Role, "Administrators"));
 
@@ -102,28 +99,20 @@ namespace OwinWebApiBearerToken.Providers
 
                 var props = new AuthenticationProperties(new Dictionary<string, string>
                 {
-                    { 
-                        "name", "John"
-                    },
-                    { 
-                        "surname", "Smith"
-                    },
-                    { 
-                        "age", "40"
-                    },
-                    { 
-                        "gender", "Male"
-                    }
+                    {  "name", "John" },
+                    { "surname", "Smith" },
+                    { "age", "40" },
+                    { "gender", "Male" }
                 });
 
                 var ticket = new AuthenticationTicket(identity, props);
                 context.Validated(ticket);
 
             }
-            catch
+            catch (Exception)
             {
                 // The ClaimsIdentity could not be created by the UserManager.
-                context.Rejected(); 
+                context.Rejected();
                 context.SetError("server_error");
             }
         }
@@ -144,7 +133,7 @@ namespace OwinWebApiBearerToken.Providers
 
         public override async Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
         {
-            ApplicationClient client = context.OwinContext.Get<ApplicationClient>("oauth:client");
+            var client = context.OwinContext.Get<ApplicationClient>("oauth:client");
 
             // var originalClient = context.Ticket.Properties.Dictionary["as:client_id"];
             var currentClient = context.ClientId;

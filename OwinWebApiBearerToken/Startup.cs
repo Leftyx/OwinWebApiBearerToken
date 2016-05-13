@@ -2,10 +2,6 @@
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace OwinWebApiBearerToken
@@ -27,8 +23,8 @@ namespace OwinWebApiBearerToken
             app.UseOAuthAuthorizationServer(OAuthOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
-            // Configure Web API for self-host. 
-            HttpConfiguration config = new HttpConfiguration();
+            // Configure Web API for self-host.
+            var config = new HttpConfiguration();
 
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
@@ -36,7 +32,7 @@ namespace OwinWebApiBearerToken
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            // We don't need this crap anymore!
+            // => We don't need this cr*p anymore!
             //config.Routes.MapHttpRoute(
             //    name: "DefaultApi",
             //    routeTemplate: "api/{controller}/{id}",
