@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.OAuth;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.OAuth;
 
 namespace OwinWebApiBearerToken.Providers
 {
@@ -45,6 +46,10 @@ namespace OwinWebApiBearerToken.Providers
                     };
 
                     context.OwinContext.Set<ApplicationClient>("oauth:client", client);
+
+                    string uid = context.Parameters.Where(f => f.Key == "uid").Select(f => f.Value).SingleOrDefault()[0];
+                    context.OwinContext.Set<string>("SmartCard", uid);
+
                     context.Validated(clientId);
                 }
                 else
@@ -91,6 +96,8 @@ namespace OwinWebApiBearerToken.Providers
 
             try
             {
+                string uid = context.OwinContext.Get<string>("SmartCard");
+
                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);
                 identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
                 identity.AddClaim(new Claim(ClaimTypes.Role, "Administrators"));

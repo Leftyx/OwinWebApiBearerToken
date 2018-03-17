@@ -26,7 +26,7 @@
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
         request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
         request.setRequestHeader('Accept', 'application/json');
-        request.send("username=John&password=Smith&grant_type=password");
+        request.send("username=John&password=Smith&grant_type=password&uid=b17ac911-4cf1-4a3e-84a9-beac7b9da157");
 
         request.onreadystatechange = function () {
             if (request.readyState == 4) {
@@ -55,7 +55,7 @@
         $.ajax({
             type: 'POST',
             url: oAuth.AuthorizationServer,
-            data: { username: 'John', password: 'Smith', grant_type: 'password' },
+            data: { username: 'John', password: 'Smith', grant_type: 'password', uid: 'b17ac911-4cf1-4a3e-84a9-beac7b9da157' },
             dataType: "json",
             contentType: 'application/x-www-form-urlencoded; charset=utf-8',
             xhrFields: {
