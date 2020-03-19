@@ -47,8 +47,8 @@ namespace OwinWebApiBearerToken.Providers
 
                     context.OwinContext.Set<ApplicationClient>("oauth:client", client);
 
-                    string uid = context.Parameters.Where(f => f.Key == "uid").Select(f => f.Value).SingleOrDefault()[0];
-                    context.OwinContext.Set<string>("SmartCard", uid);
+                    // string uid = context.Parameters.Where(f => f.Key == "uid").Select(f => f.Value).SingleOrDefault()[0];
+                    // context.OwinContext.Set<string>("SmartCard", uid);
 
                     context.Validated(clientId);
                 }
